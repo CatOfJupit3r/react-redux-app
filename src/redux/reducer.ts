@@ -3,17 +3,23 @@ import {Book} from "../types/book";
 
 
 const initialState : {
-    sort: "default" | "title" | "author" | "favorites",
     books: Book[]
+    onlyFavorite: boolean,
+    authorFilter: string
+    titleFilter: string
 } = {
     books: [],
-    sort: "default", // default | name | author | favorites
+    onlyFavorite: false,
+    authorFilter: "",
+    titleFilter: ""
 }
 
 
 const reducer = (state: {
-    sort: string,
     books: Book[]
+    onlyFavorite: boolean
+    authorFilter: string
+    titleFilter: string
 } = initialState, action: {
     type: string
     payload: any
@@ -42,16 +48,25 @@ const reducer = (state: {
                     return book
                 })
             }
-        case actionTypes.CHANGE_SORT:
-            if (state.sort === action.payload){
-                return {
-                    ...state,
-                    sort: "default"
-                }
-            }
+        case actionTypes.ONLY_FAVORITE:
             return {
                 ...state,
-                sort: action.payload
+                onlyFavorite: !state.onlyFavorite
+            }
+        case actionTypes.CLEAR_BOOKS:
+            return {
+                ...state,
+                books: []
+            }
+        case actionTypes.SET_AUTHOR_FILTER:
+            return {
+                ...state,
+                authorFilter: action.payload
+            }
+        case actionTypes.SET_TITLE_FILTER:
+            return {
+                ...state,
+                titleFilter: action.payload
             }
         default:
             return state

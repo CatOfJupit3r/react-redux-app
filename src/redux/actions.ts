@@ -22,15 +22,28 @@ export const favoriteBook = (id: string) => {
     }
 }
 
-export const changeSort = (sort: "default" | "favorites" | "author" | "title") => {
+export const setOnlyFavorite = () => {
     return {
-        type: actionTypes.CHANGE_SORT,
-        payload: sort
+        type: actionTypes.ONLY_FAVORITE,
     }
 }
 
 export const clearBooks = () => {
     return {
         type: actionTypes.CLEAR_BOOKS
+    }
+}
+
+export const setAuthorFilter = (author: string) => {
+    return {
+        type: actionTypes.SET_AUTHOR_FILTER,
+        payload: author
+    }
+}
+
+export const setTitleFilter = (title: string) => {
+    return {
+        type: actionTypes.SET_TITLE_FILTER,
+        payload: title
     }
 }

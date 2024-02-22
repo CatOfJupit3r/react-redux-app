@@ -4,6 +4,7 @@ import { Book } from "../types/book"
 import store from "../redux/store";
 import {favoriteBook, removeBook} from "../redux/actions";
 import styles from "../styles/BookComponent.module.css";
+import {FaRegBookmark, FaRegTrashAlt} from "react-icons/fa";
 
 function BookComponent(props: {
     book: Book,
@@ -12,7 +13,9 @@ function BookComponent(props: {
     const { book, index} = props;
 
     const bookText = (book: Book, index: number) => {
-        return `${index.toString()}. ${book.title} by ${book.author} (${book.addedType})`
+        return <p>
+            {index.toString()}. {book.title} by <b>{book.author}</b> ({book.addedType})
+        </p>
     }
 
     const handleFavorite = () => {
@@ -25,16 +28,16 @@ function BookComponent(props: {
 
     return (
         <div className={styles.Book}>
-            <p>
-                {bookText(book, index)}
-            </p>
+            {bookText(book, index)}
             <div>
-                <button onClick={handleFavorite}>
-                    {book.favorite ? "Remove from favorites" : "Add to favorites"}
-                </button>
-                <button onClick={handleRemove}>
-                    Remove
-                </button>
+                <FaRegBookmark
+                    onClick={handleFavorite}
+                    className={`${book.favorite ? styles.golden : styles.lessGolden} ${styles.icon} notSelectable`}
+                />
+                <FaRegTrashAlt
+                    onClick={handleRemove}
+                    className={`${styles.red} ${styles.icon} notSelectable`}
+                />
             </div>
         </div>
     );

@@ -7,4 +7,32 @@
     margin-bottom: 20px;
     padding: 10px;
     border: 1px solid black;
+    max-width: 94%;
+    margin-left: 2%;
+}
+
+.icon {
+    cursor: pointer;
+    margin-top: 5px;
+    min-font-size: 25px;
+    font-size: 30px;
+    margin-right: 10px;
+    animation-duration: 5s;
+}
+
+.icon:hover {
+    transform: scale(1.25);
+    transition-duration: 100ms;
+}
+
+.golden {
+    color: #dec125;
+}
+
+.golden:hover {
+    color: #e5d63f;
+}
+
+.red:hover {
+    color: #832222;
 }
