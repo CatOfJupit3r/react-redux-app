@@ -1,0 +1,5 @@
+export const ADD_BOOK = 'ADD_BOOK'
+export const REMOVE_BOOK = 'REMOVE_BOOK'
+export const FAVORITE_BOOK = 'FAVORITE_BOOK'
+export const CHANGE_SORT = 'CHANGE_SORT'
+export const CLEAR_BOOKS = 'CLEAR_BOOKS'
