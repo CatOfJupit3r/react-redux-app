@@ -1,10 +1,15 @@
 import React, {useState} from 'react';
 import store from "../redux/store";
-import {setOnlyFavorite,
-    setTitleFilter as setTitleFilterAction,
-    setAuthorFilter as setAuthorFilterAction} from "../redux/actions";
 
-const FilterListWindow = () => {
+import {
+    setOnlyFavorite,
+    setTitleFilter as setTitleFilterAction,
+    setAuthorFilter as setAuthorFilterAction, clearBooks
+} from "../redux/actions";
+
+import styles from "../styles/ListActionsWindow.module.css";
+
+const ListActionsWindow = () => {
 
     const [titleFilter, setTitleFilter] = useState("")
     const [authorFilter, setAuthorFilter] = useState("")
@@ -23,16 +28,38 @@ const FilterListWindow = () => {
         store.dispatch(setAuthorFilterAction(event.target.value))
     }
 
+    const handleClearFilters = () => {
+        setTitleFilter("")
+        setAuthorFilter("")
+        store.dispatch(setTitleFilterAction(""))
+        store.dispatch(setAuthorFilterAction(""))
+    }
+
+    const handleClearAllBooks = () => {
+        store.dispatch(clearBooks())
+    }
+
     return (
-        <div>
-             <h2>Filter List</h2>
+        <div className={styles.actionWindow}>
+             <h1>Filter List</h1>
             <input value={titleFilter} placeholder={"Filter by title..."} onChange={handleTitleFilter}/>
             <br/>
             <input value={authorFilter} placeholder={"Filter by author..."} onChange={handleAuthorFilter}/>
             <br/>
-            <button onClick={handleFavoriteSwitch}>Only Favorites</button>
+            <label>
+                <input type="checkbox" onChange={handleFavoriteSwitch}/>
+                Only show favorites
+            </label>
+            <br/>
+            <button onClick={handleClearFilters}>
+                Clear filters
+            </button>
+            <br/>
+            <button onClick={handleClearAllBooks}>
+                Clear all books
+            </button>
          </div>
      );
 };
 
-export default FilterListWindow;
+export default ListActionsWindow;

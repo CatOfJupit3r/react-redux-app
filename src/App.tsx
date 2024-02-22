@@ -3,16 +3,20 @@ import './App.css';
 
 import Header from "./components/Header";
 import NewBook from "./components/NewBook";
-import FilterListWindow from "./components/FilterListWindow";
+import ListActionsWindow from "./components/ListActionsWindow";
 import BooksList from "./components/BooksList";
 
 function App() {
   return (
       <div className="App">
           <Header />
-          <div>
+          <div style={{
+                display: "flex",
+                flexDirection: "row",
+                justifyContent: "center"
+          }}>
               <NewBook />
-              <FilterListWindow />
+              <ListActionsWindow />
           </div>
           <BooksList />
       </div>
