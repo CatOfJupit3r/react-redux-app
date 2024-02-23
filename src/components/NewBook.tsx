@@ -1,10 +1,10 @@
 import React, {useState} from 'react';
-import {addBook as addBookPayload} from "../redux/slices/booksSlice";
+import {addBook as addBookPayload, thunkFunction} from "../redux/slices/booksSlice";
 import {getRandomBook} from "../utils/getRandomBook";
 import styles from "../styles/common.module.css";
 import {useDispatch} from "react-redux";
-import axios from "axios";
 import createBook from "../utils/createBook";
+import {UnknownAction} from "@reduxjs/toolkit";
 
 
 const NewBook = () => {
@@ -39,16 +39,9 @@ const NewBook = () => {
         dispatch(addBookPayload(getRandomBook()))
     }
 
-    const addRandomBookAPI = async () => {
-         await axios.get("http://localhost:4000/random-book")
-            .then((res) => {
-                const {title, author} = res.data
-                dispatch(
-                    addBookPayload(
-                        createBook(title, author, "API")
-                    )
-                )
-            })
+
+    const addRandomBookAPI = () => {
+        dispatch(thunkFunction as unknown as UnknownAction) // DAMN???
     }
 
     return (
