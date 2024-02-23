@@ -50,8 +50,6 @@ const ListActionsWindow = () => {
     }, [authorFilterStore]);
 
     const handleClearFilters = () => {
-        setTitleFilter("")
-        setAuthorFilter("")
         dispatch(setTitleFilterStore(""))
         dispatch(setAuthorFilterStore(""))
         if (onlyFavorite) {
