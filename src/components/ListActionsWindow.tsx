@@ -7,7 +7,7 @@ import {
     setAuthorFilter as setAuthorFilterAction, clearBooks
 } from "../redux/actions";
 
-import styles from "../styles/ListActionsWindow.module.css";
+import styles from "../styles/common.module.css";
 
 const ListActionsWindow = () => {
 
@@ -48,22 +48,39 @@ const ListActionsWindow = () => {
     })
 
     return (
-        <div className={styles.actionWindow}>
+        <div className={styles.commonWindow}>
              <h1>Filter List</h1>
-            <input value={titleFilter} placeholder={"Filter by title..."} onChange={handleTitleFilter}/>
+            <input
+                value={titleFilter}
+                placeholder={"Filter by title..."}
+                onChange={handleTitleFilter}
+                className={`${styles.commonInput} notSelectable`}/>
             <br/>
-            <input value={authorFilter} placeholder={"Filter by author..."} onChange={handleAuthorFilter}/>
+            <input
+                value={authorFilter}
+                placeholder={"Filter by author..."}
+                onChange={handleAuthorFilter}
+                className={`${styles.commonInput} notSelectable`}
+            />
             <br/>
             <label>
-                <input type="checkbox" onChange={handleFavoriteSwitch} checked={boxChecked}/>
+                <input
+                    type="checkbox"
+                    onChange={handleFavoriteSwitch}
+                    checked={boxChecked}
+                />
                 Only show favorites
             </label>
             <br/>
-            <button onClick={handleClearFilters}>
-                Clear filters
+            <button
+                onClick={handleClearFilters}
+                className={styles.commonButton}
+            > Clear filters
             </button>
-            <br/>
-            <button onClick={handleClearAllBooks}>
+            <button
+                onClick={handleClearAllBooks}
+                className={styles.commonButton}
+            >
                 Clear all books
             </button>
          </div>

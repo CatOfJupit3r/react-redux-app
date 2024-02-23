@@ -17,7 +17,7 @@ function BookComponent(props: {
     const bookText = (book: Book, index: number) => {
 
         return <p>
-            {index.toString()}.
+            {index.toString()}.{` `}
             <Highlighter
                 highlightClassName={styles.highlight}
                 searchWords={[store.getState().titleFilter]}

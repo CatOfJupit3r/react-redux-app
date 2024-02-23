@@ -9,6 +9,7 @@
     border: 1px solid black;
     max-width: 94%;
     margin-left: 2%;
+    background: #a2cc99;
 }
 
 .icon {
@@ -26,11 +27,11 @@
 }
 
 .golden {
-    color: #dec125;
+    color: #fadf53;
 }
 
 .golden:hover {
-    color: #e5d63f;
+    color: #ffef99;
 }
 
 .red:hover {

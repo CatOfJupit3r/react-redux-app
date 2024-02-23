@@ -1,0 +1,38 @@
+.commonWindow {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: 1px none black;
+    margin: 10px;
+    background: #a6b4c4;
+    border-radius: 10px;
+    padding-bottom: 40px;
+    width: 25%;
+}
+
+.commonInput {
+    margin: 10px;
+    width: 80%;
+    border-radius: 5px;
+    padding: 5px;
+    border: 1px none black;
+}
+
+.commonInput::placeholder {
+    color: #040604;
+}
+
+.commonButton {
+    margin: 10px;
+    width: 80%;
+    border-radius: 5px;
+    padding: 5px;
+    border: 1px none black;
+    background: #6c7883;
+    cursor: pointer;
+    color: white;
+}
+
+.commonButton:hover {
+    background: #9390b6;
+}

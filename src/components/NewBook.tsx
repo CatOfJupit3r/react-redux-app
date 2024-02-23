@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import store from "../redux/store";
 import {addBook as addBookPayload} from "../redux/actions";
 import {getRandomBook} from "../utils/getRandomBook";
-import styles from "../styles/NewBook.module.css";
+import styles from "../styles/common.module.css";
 
 
 const NewBook = () => {
@@ -40,16 +40,34 @@ const NewBook = () => {
     }
 
     return (
-        <div className={styles.newBookWindow}>
+        <div className={styles.commonWindow}>
             <h1>New Book</h1>
             <h2>Title: </h2>
-            <input value={bookTitle} type="text" onChange={handleTitleChange} placeholder={"Enter title of book"}/>
+            <input
+                value={bookTitle}
+                type="text"
+                onChange={handleTitleChange}
+                className={styles.commonInput}
+                placeholder={"Enter title of book"}
+            />
             <h2>Author: </h2>
-            <input value={bookAuthor} type="text" onChange={handleAuthorChange} placeholder={"Enter name of author"} />
+            <input
+                value={bookAuthor}
+                type="text"
+                onChange={handleAuthorChange}
+                placeholder={"Enter name of author"}
+                className={styles.commonInput}
+            />
             <br/>
-            <button onClick={addBook}>Add Book</button>
-            <br/>
-            <button onClick={addRandomBook}>Add Random Book</button>
+            <button
+                onClick={addBook}
+                className={styles.commonButton}
+            >Add Book
+            </button>
+            <button
+                onClick={addRandomBook}
+                className={styles.commonButton}
+            >Add Random Book</button>
         </div>
     );
 };
