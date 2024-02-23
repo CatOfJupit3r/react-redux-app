@@ -7,8 +7,8 @@ import {
 
 import styles from "../styles/common.module.css";
 import {shallowEqual, useDispatch, useSelector} from "react-redux";
-import {clearBooks} from "../redux/books/actions";
 import {StoreState} from "../types/states";
+import {clearBooks} from "../redux/slices/booksSlice";
 
 const ListActionsWindow = () => {
 

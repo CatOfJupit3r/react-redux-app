@@ -1,8 +1,10 @@
 import React, {useState} from 'react';
-import {addBook as addBookPayload} from "../redux/books/actions";
+import {addBook as addBookPayload} from "../redux/slices/booksSlice";
 import {getRandomBook} from "../utils/getRandomBook";
 import styles from "../styles/common.module.css";
 import {useDispatch} from "react-redux";
+import axios from "axios";
+import createBook from "../utils/createBook";
 
 
 const NewBook = () => {
@@ -27,18 +29,26 @@ const NewBook = () => {
         setBookTitle("")
         setBookAuthor("")
         dispatch(
-            addBookPayload({
-                title: bookTitle,
-                author: bookAuthor,
-                id: crypto.randomUUID(),
-                addedType: "manual",
-                favorite: false
-            })
+            addBookPayload(
+                createBook(bookTitle, bookAuthor, "manual")
+            )
         )
     }
 
     const addRandomBook = () => {
         dispatch(addBookPayload(getRandomBook()))
+    }
+
+    const addRandomBookAPI = async () => {
+         await axios.get("http://localhost:4000/random-book")
+            .then((res) => {
+                const {title, author} = res.data
+                dispatch(
+                    addBookPayload(
+                        createBook(title, author, "API")
+                    )
+                )
+            })
     }
 
     return (
@@ -70,6 +80,10 @@ const NewBook = () => {
                 onClick={addRandomBook}
                 className={styles.commonButton}
             >Add Random Book</button>
+            <button
+                onClick={addRandomBookAPI}
+                className={styles.commonButton}
+            >Add Random Book via API</button>
         </div>
     );
 };

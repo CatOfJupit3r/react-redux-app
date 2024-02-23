@@ -1,12 +1,12 @@
 import React from 'react';
 
 import { Book } from "../types/book"
-import {favoriteBook, removeBook} from "../redux/books/actions";
 import styles from "../styles/BookComponent.module.css";
 import {FaRegBookmark, FaRegTrashAlt} from "react-icons/fa";
 import Highlighter from "react-highlight-words";
 import {shallowEqual, useDispatch, useSelector} from "react-redux";
 import {StoreState} from "../types/states";
+import {favoriteBook, removeBook} from "../redux/slices/booksSlice";
 
 
 function BookComponent(props: {
