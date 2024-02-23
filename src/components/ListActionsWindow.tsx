@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 
 import {
     toggleOnlyFavorite,
@@ -6,17 +6,27 @@ import {
     setTitleFilter as setTitleFilterStore} from "../redux/slices/filterSlice";
 
 import styles from "../styles/common.module.css";
-import {useDispatch, useSelector} from "react-redux";
+import {shallowEqual, useDispatch, useSelector} from "react-redux";
 import {clearBooks} from "../redux/books/actions";
 import {StoreState} from "../types/states";
 
 const ListActionsWindow = () => {
 
     const dispatch = useDispatch()
-    const selector = useSelector((state: StoreState) => state.filter.onlyFavorite)
+    const {
+        onlyFavorite,
+        titleFilterStore,
+        authorFilterStore
+    } = useSelector((state: StoreState) => {
+        return {
+            onlyFavorite: state.filter.onlyFavorite,
+            titleFilterStore: state.filter.title,
+            authorFilterStore: state.filter.author
+        }
+    }, shallowEqual)
 
-    const [titleFilter, setTitleFilter] = useState("")
-    const [authorFilter, setAuthorFilter] = useState("")
+    const [titleFilter, setTitleFilter] = useState(titleFilterStore)
+    const [authorFilter, setAuthorFilter] = useState(authorFilterStore)
 
 
     const handleFavoriteSwitch = () => {
@@ -24,21 +34,27 @@ const ListActionsWindow = () => {
     }
 
     const handleTitleFilter = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setTitleFilter(event.target.value)
         dispatch(setTitleFilterStore(event.target.value))
     }
 
     const handleAuthorFilter = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setAuthorFilter(event.target.value)
         dispatch(setAuthorFilterStore(event.target.value))
     }
+
+    useEffect(() => {
+        setTitleFilter(titleFilterStore)
+    }, [titleFilterStore]);
+
+    useEffect(() => {
+        setAuthorFilter(authorFilterStore)
+    }, [authorFilterStore]);
 
     const handleClearFilters = () => {
         setTitleFilter("")
         setAuthorFilter("")
         dispatch(setTitleFilterStore(""))
         dispatch(setAuthorFilterStore(""))
-        if (selector) {
+        if (onlyFavorite) {
             dispatch(toggleOnlyFavorite())
         }
     }
@@ -67,7 +83,7 @@ const ListActionsWindow = () => {
                 <input
                     type="checkbox"
                     onChange={handleFavoriteSwitch}
-                    checked={selector}
+                    checked={onlyFavorite}
                 />
                 Only show favorites
             </label>
