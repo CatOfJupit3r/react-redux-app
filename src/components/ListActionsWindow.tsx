@@ -1,51 +1,51 @@
 import React, {useState} from 'react';
-import store from "../redux/store";
 
 import {
-    setOnlyFavorite,
-    setTitleFilter as setTitleFilterAction,
-    setAuthorFilter as setAuthorFilterAction, clearBooks
-} from "../redux/actions";
+    toggleOnlyFavorite,
+    setAuthorFilter as setAuthorFilterStore,
+    setTitleFilter as setTitleFilterStore} from "../redux/slices/filterSlice";
 
 import styles from "../styles/common.module.css";
+import {useDispatch, useSelector} from "react-redux";
+import {clearBooks} from "../redux/books/actions";
+import {StoreState} from "../types/states";
 
 const ListActionsWindow = () => {
 
+    const dispatch = useDispatch()
+    const selector = useSelector((state: StoreState) => state.filter.onlyFavorite)
+
     const [titleFilter, setTitleFilter] = useState("")
     const [authorFilter, setAuthorFilter] = useState("")
-    const [boxChecked, setBoxChecked] = useState(store.getState().onlyFavorite)
+
 
     const handleFavoriteSwitch = () => {
-        store.dispatch(setOnlyFavorite())
+        dispatch(toggleOnlyFavorite())
     }
 
     const handleTitleFilter = (event: React.ChangeEvent<HTMLInputElement>) => {
         setTitleFilter(event.target.value)
-        store.dispatch(setTitleFilterAction(event.target.value))
+        dispatch(setTitleFilterStore(event.target.value))
     }
 
     const handleAuthorFilter = (event: React.ChangeEvent<HTMLInputElement>) => {
         setAuthorFilter(event.target.value)
-        store.dispatch(setAuthorFilterAction(event.target.value))
+        dispatch(setAuthorFilterStore(event.target.value))
     }
 
     const handleClearFilters = () => {
         setTitleFilter("")
         setAuthorFilter("")
-        store.dispatch(setTitleFilterAction(""))
-        store.dispatch(setAuthorFilterAction(""))
-        if (store.getState().onlyFavorite) {
-            store.dispatch(setOnlyFavorite())
+        dispatch(setTitleFilterStore(""))
+        dispatch(setAuthorFilterStore(""))
+        if (selector) {
+            dispatch(toggleOnlyFavorite())
         }
     }
 
     const handleClearAllBooks = () => {
-        store.dispatch(clearBooks())
+        dispatch(clearBooks())
     }
-
-    store.subscribe(() => {
-        setBoxChecked(store.getState().onlyFavorite)
-    })
 
     return (
         <div className={styles.commonWindow}>
@@ -67,7 +67,7 @@ const ListActionsWindow = () => {
                 <input
                     type="checkbox"
                     onChange={handleFavoriteSwitch}
-                    checked={boxChecked}
+                    checked={selector}
                 />
                 Only show favorites
             </label>

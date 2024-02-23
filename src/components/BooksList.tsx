@@ -1,33 +1,45 @@
-import React, {useState} from 'react';
-import store from "../redux/store";
+import React, {useEffect, useState} from 'react';
 import {Book} from "../types/book";
 import BookComponent from "./BookComponent";
+import {shallowEqual, useSelector} from "react-redux";
+import {StoreState} from "../types/states";
 
 const BooksList = () => {
-    const [displayedBooks, setDisplayedBooks] = useState(store.getState().books);
 
-    const updateList = () => {
-        const favoriteFilter = store.getState().onlyFavorite;
-        const authorFilter = store.getState().authorFilter;
-        const titleFilter = store.getState().titleFilter;
+    const {
+        booksSelector,
+        filterSelector
+    } = useSelector((state: StoreState) => {
+        return {
+            booksSelector: state.books,
+            filterSelector: state.filter
+        }
+    }, shallowEqual);
 
-        const booksToDisplay = store.getState().books.filter((book: Book) => {
-            let authorMatch = (book.author.toLowerCase().includes(authorFilter.toLowerCase()) || authorFilter === "");
-            let titleMatch = (book.title.toLowerCase().includes(titleFilter.toLowerCase()) || titleFilter === "");
+    const [displayedBooks, setDisplayedBooks] = useState(booksSelector);
 
-            if (favoriteFilter){
-                return book.favorite && authorMatch && titleMatch;
-            }  else {
-                return authorMatch && titleMatch;
-            }
-        })
+    useEffect(() => {
+        const updateList = () => {
+            const favoriteFilter = filterSelector.onlyFavorite;
+            const authorFilter = filterSelector.author;
+            const titleFilter = filterSelector.title;
 
-        setDisplayedBooks(booksToDisplay);
-    }
+            const booksToDisplay = booksSelector.filter((book: Book) => {
+                const authorMatch = (book.author.toLowerCase().includes(authorFilter.toLowerCase()) || authorFilter === "");
+                const titleMatch = (book.title.toLowerCase().includes(titleFilter.toLowerCase()) || titleFilter === "");
 
-    store.subscribe(() => {
+                if (favoriteFilter) {
+                    return book.favorite && authorMatch && titleMatch;
+                } else {
+                    return authorMatch && titleMatch;
+                }
+            });
+
+            setDisplayedBooks(booksToDisplay);
+        };
+
         updateList();
-    })
+    }, [booksSelector, filterSelector]);
 
     return (
         <div>

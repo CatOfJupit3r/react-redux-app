@@ -1,11 +1,12 @@
 import React from 'react';
 
 import { Book } from "../types/book"
-import store from "../redux/store";
-import {favoriteBook, removeBook} from "../redux/actions";
+import {favoriteBook, removeBook} from "../redux/books/actions";
 import styles from "../styles/BookComponent.module.css";
 import {FaRegBookmark, FaRegTrashAlt} from "react-icons/fa";
 import Highlighter from "react-highlight-words";
+import {shallowEqual, useDispatch, useSelector} from "react-redux";
+import {StoreState} from "../types/states";
 
 
 function BookComponent(props: {
@@ -14,18 +15,30 @@ function BookComponent(props: {
 }) {
     const { book, index} = props;
 
+    const dispatch = useDispatch()
+
+    const {
+        titleFilter,
+        authorFilter
+    } = useSelector((state: StoreState) => {
+        return {
+            titleFilter: state.filter.title,
+            authorFilter: state.filter.author
+        }
+    }, shallowEqual)
+
     const bookText = (book: Book, index: number) => {
 
         return <p>
             {index.toString()}.{` `}
             <Highlighter
                 highlightClassName={styles.highlight}
-                searchWords={[store.getState().titleFilter]}
+                searchWords={[titleFilter]}
                 autoEscape={true}
                 textToHighlight={book.title}
             /> by <b><Highlighter
                 highlightClassName={styles.highlight}
-                searchWords={[store.getState().authorFilter]}
+                searchWords={[authorFilter]}
                 autoEscape={true}
                 textToHighlight={book.author}
             /></b> ({book.addedType})
@@ -33,11 +46,11 @@ function BookComponent(props: {
     }
 
     const handleFavorite = () => {
-        store.dispatch(favoriteBook(book.id))
+        dispatch(favoriteBook(book.id))
     }
 
     const handleRemove = () => {
-        store.dispatch(removeBook(book.id))
+        dispatch(removeBook(book.id))
     }
 
     return (

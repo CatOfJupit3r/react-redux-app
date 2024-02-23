@@ -1,13 +1,15 @@
 import React, {useState} from 'react';
-import store from "../redux/store";
-import {addBook as addBookPayload} from "../redux/actions";
+import {addBook as addBookPayload} from "../redux/books/actions";
 import {getRandomBook} from "../utils/getRandomBook";
 import styles from "../styles/common.module.css";
+import {useDispatch} from "react-redux";
 
 
 const NewBook = () => {
     const [bookTitle, setBookTitle] = useState("")
     const [bookAuthor, setBookAuthor] = useState("")
+
+    const dispatch = useDispatch()
 
     const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setBookTitle(e.target.value)
@@ -24,7 +26,7 @@ const NewBook = () => {
         }
         setBookTitle("")
         setBookAuthor("")
-        store.dispatch(
+        dispatch(
             addBookPayload({
                 title: bookTitle,
                 author: bookAuthor,
@@ -36,7 +38,7 @@ const NewBook = () => {
     }
 
     const addRandomBook = () => {
-        store.dispatch(addBookPayload(getRandomBook()))
+        dispatch(addBookPayload(getRandomBook()))
     }
 
     return (

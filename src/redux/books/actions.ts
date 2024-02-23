@@ -1,4 +1,4 @@
-import {Book} from "../types/book";
+import {Book} from "../../types/book";
 import * as actionTypes from './actionTypes'
 
 export const addBook = (payload: Book) => {
@@ -22,28 +22,9 @@ export const favoriteBook = (id: string) => {
     }
 }
 
-export const setOnlyFavorite = () => {
-    return {
-        type: actionTypes.ONLY_FAVORITE,
-    }
-}
-
 export const clearBooks = () => {
     return {
         type: actionTypes.CLEAR_BOOKS
     }
 }
 
-export const setAuthorFilter = (author: string) => {
-    return {
-        type: actionTypes.SET_AUTHOR_FILTER,
-        payload: author
-    }
-}
-
-export const setTitleFilter = (title: string) => {
-    return {
-        type: actionTypes.SET_TITLE_FILTER,
-        payload: title
-    }
-}
