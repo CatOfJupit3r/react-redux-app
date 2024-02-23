@@ -5,6 +5,8 @@ import store from "../redux/store";
 import {favoriteBook, removeBook} from "../redux/actions";
 import styles from "../styles/BookComponent.module.css";
 import {FaRegBookmark, FaRegTrashAlt} from "react-icons/fa";
+import Highlighter from "react-highlight-words";
+
 
 function BookComponent(props: {
     book: Book,
@@ -13,8 +15,20 @@ function BookComponent(props: {
     const { book, index} = props;
 
     const bookText = (book: Book, index: number) => {
+
         return <p>
-            {index.toString()}. {book.title} by <b>{book.author}</b> ({book.addedType})
+            {index.toString()}.
+            <Highlighter
+                highlightClassName={styles.highlight}
+                searchWords={[store.getState().titleFilter]}
+                autoEscape={true}
+                textToHighlight={book.title}
+            /> by <b><Highlighter
+                highlightClassName={styles.highlight}
+                searchWords={[store.getState().authorFilter]}
+                autoEscape={true}
+                textToHighlight={book.author}
+            /></b> ({book.addedType})
         </p>
     }
 

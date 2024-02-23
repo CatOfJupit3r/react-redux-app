@@ -13,6 +13,7 @@ const ListActionsWindow = () => {
 
     const [titleFilter, setTitleFilter] = useState("")
     const [authorFilter, setAuthorFilter] = useState("")
+    const [boxChecked, setBoxChecked] = useState(store.getState().onlyFavorite)
 
     const handleFavoriteSwitch = () => {
         store.dispatch(setOnlyFavorite())
@@ -33,11 +34,18 @@ const ListActionsWindow = () => {
         setAuthorFilter("")
         store.dispatch(setTitleFilterAction(""))
         store.dispatch(setAuthorFilterAction(""))
+        if (store.getState().onlyFavorite) {
+            store.dispatch(setOnlyFavorite())
+        }
     }
 
     const handleClearAllBooks = () => {
         store.dispatch(clearBooks())
     }
+
+    store.subscribe(() => {
+        setBoxChecked(store.getState().onlyFavorite)
+    })
 
     return (
         <div className={styles.actionWindow}>
@@ -47,7 +55,7 @@ const ListActionsWindow = () => {
             <input value={authorFilter} placeholder={"Filter by author..."} onChange={handleAuthorFilter}/>
             <br/>
             <label>
-                <input type="checkbox" onChange={handleFavoriteSwitch}/>
+                <input type="checkbox" onChange={handleFavoriteSwitch} checked={boxChecked}/>
                 Only show favorites
             </label>
             <br/>
