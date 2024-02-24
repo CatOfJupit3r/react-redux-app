@@ -43,7 +43,7 @@ const NewBook = () => {
 
 
     const addRandomBookAPI = () => {
-        dispatch(fetchBook() as unknown as UnknownAction) // DAMN???
+        dispatch(fetchBook("http://localhost:4000/random-book") as unknown as UnknownAction) // DAMN???
     }
 
     return (
