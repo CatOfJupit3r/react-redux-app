@@ -9,4 +9,5 @@ export interface FilterState {
 export interface StoreState {
     books: Book[];
     filter: FilterState;
+    error: string
 }

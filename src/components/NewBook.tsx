@@ -5,6 +5,8 @@ import styles from "../styles/common.module.css";
 import {useDispatch} from "react-redux";
 import createBook from "../utils/createBook";
 import {UnknownAction} from "@reduxjs/toolkit";
+import {toast} from "react-toastify";
+import {setError} from "../redux/slices/errorSlice";
 
 
 const NewBook = () => {
@@ -23,7 +25,7 @@ const NewBook = () => {
 
     const addBook = () => {
         if (bookTitle === "" || bookAuthor === "") {
-            alert("Please fill in all fields")
+            dispatch(setError("Please fill in all fields!"))
             return
         }
         setBookTitle("")

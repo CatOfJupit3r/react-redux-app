@@ -3,9 +3,9 @@ import styles from '../styles/Header.module.css';
 
 const Header = () => {
     return (
-        <div className={styles.appHeader}>
+        <header className={styles.appHeader}>
             <h1>Book Library App</h1>
-        </div>
+        </header>
     );
 };
 

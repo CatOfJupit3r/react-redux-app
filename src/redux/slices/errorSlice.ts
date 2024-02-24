@@ -1,4 +1,5 @@
 import {createSlice} from "@reduxjs/toolkit";
+import {StoreState} from "../../types/states";
 
 const initialState: string = ''
 
@@ -22,7 +23,4 @@ export const {
     clearError
 } = ErrorSlice.actions
 
-export const selectErrorMessage = (state: any) => {
-    console.log(state)
-    return state.error
-}
+export const selectErrorMessage = (state: StoreState) => state.error
