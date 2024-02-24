@@ -2,7 +2,6 @@ import {Book} from "../../types/book";
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 import axios from "axios";
 import createBook from "../../utils/createBook";
-import {useDispatch} from "react-redux";
 import {setError} from "./errorSlice";
 
 

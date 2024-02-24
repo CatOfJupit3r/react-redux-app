@@ -36,3 +36,28 @@
 .commonButton:hover {
     background: #9390b6;
 }
+
+.commonContainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    border: 1px none black;
+    border-radius: 10px;
+    width: auto;
+}
+
+.commonSpinner {
+    animation: commonSpinner 1s infinite linear;
+    margin-left: 10px;
+}
+
+@keyframes commonSpinner {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
