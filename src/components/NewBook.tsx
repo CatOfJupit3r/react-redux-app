@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {addBook as addBookPayload, thunkFunction} from "../redux/slices/booksSlice";
+import {addBook as addBookPayload, fetchBook} from "../redux/slices/booksSlice";
 import {getRandomBook} from "../utils/getRandomBook";
 import styles from "../styles/common.module.css";
 import {useDispatch} from "react-redux";
@@ -41,7 +41,7 @@ const NewBook = () => {
 
 
     const addRandomBookAPI = () => {
-        dispatch(thunkFunction as unknown as UnknownAction) // DAMN???
+        dispatch(fetchBook() as unknown as UnknownAction) // DAMN???
     }
 
     return (
