@@ -6,8 +6,13 @@ export interface FilterState {
     onlyFavorite: boolean;
 }
 
+export interface BooksState {
+    books: Book[],
+    isLoadingViaAPI: boolean
+}
+
 export interface StoreState {
-    books: Book[];
+    books: BooksState;
     filter: FilterState;
     error: string
 }

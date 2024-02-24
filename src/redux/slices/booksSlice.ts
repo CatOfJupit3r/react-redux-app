@@ -3,9 +3,12 @@ import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 import axios from "axios";
 import createBook from "../../utils/createBook";
 import {setError} from "./errorSlice";
+import {BooksState} from "../../types/states";
 
-
-const initialState: Book[] = []
+const initialState: BooksState = {
+    books: [],
+    isLoadingViaAPI: false
+}
 
 export const fetchBook = createAsyncThunk(
     'books/fetchBook',
@@ -15,7 +18,7 @@ export const fetchBook = createAsyncThunk(
             return res.data
         } catch (e: any) {
             thunkAPI.dispatch(setError(e.message))
-            throw e // if commented, thunk will go to *.fulfilled state
+            return thunkAPI.rejectWithValue(e)
         }
     }
 )
@@ -24,34 +27,48 @@ const bookSlice = createSlice({
     name: 'books',
     initialState,
     reducers: {
-        addBook: (state, action) => {
-            return state.concat(action.payload)
+        addBook: (state: BooksState, action) => {
+            return {...state, books: [...state.books, action.payload]}
         },
         removeBook: (state, action) => {
-            return state.filter((book: Book) => book.id !== action.payload)
+            return {...state, books: state.books.filter((book: Book) => book.id !== action.payload)}
         },
-        favoriteBook: (state, action) => {
-            return [...state.map((book: Book) => {
-                if (book.id === action.payload){
-                    return {
-                        ...book,
-                        favorite: !(book.favorite)
+        favoriteBook: (state: BooksState, action) => {
+            return {
+                ...state,
+                books: state.books.map((book: Book) => {
+                    if (book.id === action.payload) {
+                        return {
+                            ...book,
+                            favorite: !(book.favorite)
+                        }
                     }
-                }
-                return book
-            })]
+                    return book
+                })
+            }
         },
-        clearBooks: () => {
-            return []
+        clearBooks: (state) => {
+            return {
+                ...state,
+                books: []
+            }
         }
     },
     extraReducers: (builder) => {
-        builder.addCase(fetchBook.fulfilled, (state: Book[], action) => {
+        builder.addCase(fetchBook.pending, (state: BooksState) => {
+            return {...state, isLoadingViaAPI: true}
+        })
+        builder.addCase(fetchBook.fulfilled, (state: BooksState, action) => {
             const {payload} = action
             if (payload?.title && payload?.author) {
                 const {title, author} = payload
-                return [...state, createBook(title, author, "API")]
+                return {...state, isLoadingViaAPI: false, books: [...state.books, createBook(title, author, "API")]}
+            } else {
+                return {...state, isLoadingViaAPI: false}
             }
+        })
+        builder.addCase(fetchBook.rejected, (state: BooksState) => {
+            return {...state, isLoadingViaAPI: false}
         })
     }
 })
@@ -65,3 +82,4 @@ export const {
     clearBooks,
 } = bookSlice.actions
 
+export const selectIsLoading = (state: {books: BooksState}) => state.books.isLoadingViaAPI

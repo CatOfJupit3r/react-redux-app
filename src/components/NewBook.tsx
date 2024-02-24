@@ -1,8 +1,8 @@
 import React, {useState} from 'react';
-import {addBook as addBookPayload, fetchBook} from "../redux/slices/booksSlice";
+import {addBook as addBookPayload, fetchBook, selectIsLoading} from "../redux/slices/booksSlice";
 import {getRandomBook} from "../utils/getRandomBook";
 import styles from "../styles/common.module.css";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import createBook from "../utils/createBook";
 import {setError} from "../redux/slices/errorSlice";
 import {FaSpinner} from "react-icons/fa";
@@ -13,7 +13,7 @@ import {UnknownAction} from "@reduxjs/toolkit";
 const NewBook = () => {
     const [bookTitle, setBookTitle] = useState("")
     const [bookAuthor, setBookAuthor] = useState("")
-    const [isLoading, setIsLoading] = useState(false)
+    const isLoadingViaAPI = useSelector(selectIsLoading)
 
     const dispatch = useDispatch()
 
@@ -45,12 +45,7 @@ const NewBook = () => {
 
 
     const addRandomBookAPI = async () => {
-        try{
-            setIsLoading(true)
-            await dispatch(fetchBook("http://localhost:4000/random-book") as unknown as UnknownAction) // DAMN???
-        } finally {
-            setIsLoading(false)
-        }
+        dispatch(fetchBook("http://localhost:4000/random-book") as unknown as UnknownAction) // DAMN???
     }
 
     return (
@@ -85,9 +80,9 @@ const NewBook = () => {
             <button
                 onClick={addRandomBookAPI}
                 className={styles.commonButton}
-                disabled={isLoading}
+                disabled={isLoadingViaAPI}
             >
-                {isLoading ?
+                {isLoadingViaAPI ?
                     <span className={styles.commonContainer} >
                         Loading...
                         <FaSpinner className={styles.commonSpinner}/>

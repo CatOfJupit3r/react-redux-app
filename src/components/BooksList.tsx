@@ -11,7 +11,7 @@ const BooksList = () => {
         filterSelector
     } = useSelector((state: StoreState) => {
         return {
-            booksSelector: state.books,
+            booksSelector: state.books.books,
             filterSelector: state.filter
         }
     }, shallowEqual);
